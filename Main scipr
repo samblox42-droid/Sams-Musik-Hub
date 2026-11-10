@@ -10,7 +10,7 @@ local LocalPlayer = Players.LocalPlayer
 local HttpService = game:GetService("HttpService")
 
 if CoreGui:FindFirstChild("SamMusicV6") then
-    CoreGui:FindFirstChild("SamMusicV6"):Destroy()
+CoreGui:FindFirstChild("SamMusicV6"):Destroy()
 end
 
 local ScreenGui = Instance.new("ScreenGui")
@@ -20,18 +20,18 @@ ScreenGui.Parent = CoreGui
 
 -- Auto Chat
 task.spawn(function()
-    task.wait(0.8)
-    pcall(function()
-        if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
-            local channel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
-            if channel then channel:SendAsync("⚡ Sam's Music V6 Loaded ⚡") end
-        else
-            local sayEvent = ReplicatedStorage:FindFirstChild("DefaultChatSystemChatEvents")
-            if sayEvent and sayEvent:FindFirstChild("SayMessageRequest") then
-                sayEvent.SayMessageRequest:FireServer("⚡ Sam's Music V6 Loaded ⚡", "All")
-            end
-        end
-    end)
+task.wait(0.8)
+pcall(function()
+if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
+local channel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
+if channel then channel:SendAsync("⚡ Sam's Music V6 Loaded ⚡") end
+else
+local sayEvent = ReplicatedStorage:FindFirstChild("DefaultChatSystemChatEvents")
+if sayEvent and sayEvent:FindFirstChild("SayMessageRequest") then
+sayEvent.SayMessageRequest:FireServer("⚡ Sam's Music V6 Loaded ⚡", "All")
+end
+end
+end)
 end)
 
 -- Main Frame
@@ -57,23 +57,23 @@ ParticleFrame.Parent = Main
 Instance.new("UICorner", ParticleFrame).CornerRadius = UDim.new(0,10)
 
 task.spawn(function()
-    while task.wait(0.4) do
-        if not ParticleFrame.Parent then break end
-        local p = Instance.new("Frame")
-        local s = math.random(2,4)
-        p.Size = UDim2.new(0,s,0,s)
-        p.Position = UDim2.new(math.random(),0,1,0)
-        p.BackgroundColor3 = Color3.fromRGB(50,255,100)
-        p.BackgroundTransparency = 0.6
-        p.BorderSizePixel = 0
-        Instance.new("UICorner", p).CornerRadius = UDim.new(1,0)
-        p.Parent = ParticleFrame
-        TweenService:Create(p, TweenInfo.new(math.random(4,7), Enum.EasingStyle.Linear), {
-            Position = UDim2.new(p.Position.X.Scale + (math.random(-10,10)/100),0,-0.1,0),
-            BackgroundTransparency = 1
-        }):Play()
-        task.delay(8, function() p:Destroy() end)
-    end
+while task.wait(0.4) do
+if not ParticleFrame.Parent then break end
+local p = Instance.new("Frame")
+local s = math.random(2,4)
+p.Size = UDim2.new(0,s,0,s)
+p.Position = UDim2.new(math.random(),0,1,0)
+p.BackgroundColor3 = Color3.fromRGB(50,255,100)
+p.BackgroundTransparency = 0.6
+p.BorderSizePixel = 0
+Instance.new("UICorner", p).CornerRadius = UDim.new(1,0)
+p.Parent = ParticleFrame
+TweenService:Create(p, TweenInfo.new(math.random(4,7), Enum.EasingStyle.Linear), {
+Position = UDim2.new(p.Position.X.Scale + (math.random(-10,10)/100),0,-0.1,0),
+BackgroundTransparency = 1
+}):Play()
+task.delay(8, function() p:Destroy() end)
+end
 end)
 
 -- Minimize Button
@@ -108,36 +108,36 @@ Title.TextXAlignment = Enum.TextXAlignment.Left Title.Parent = Header
 -- Drag (verschiebbare UI)
 local dragging, dragInput, dragStart, startPos
 Header.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        dragging = true
-        dragStart = input.Position
-        startPos = Main.Position
-    end
+if input.UserInputType == Enum.UserInputType.MouseButton1 then
+dragging = true
+dragStart = input.Position
+startPos = Main.Position
+end
 end)
 Header.InputChanged:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseMovement then
-        dragInput = input
-    end
+if input.UserInputType == Enum.UserInputType.MouseMovement then
+dragInput = input
+end
 end)
 UserInputService.InputChanged:Connect(function(input)
-    if input == dragInput and dragging then
-        local delta = input.Position - dragStart
-        Main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-    end
+if input == dragInput and dragging then
+local delta = input.Position - dragStart
+Main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+end
 end)
 
 local function clickAnim(btn)
-    local orig = btn.Size
-    btn.InputBegan:Connect(function(i)
-        if i.UserInputType == Enum.UserInputType.MouseButton1 then
-            TweenService:Create(btn, TweenInfo.new(0.1), {Size = UDim2.new(orig.X.Scale, orig.X.Offset-3, orig.Y.Scale, orig.Y.Offset-3)}):Play()
-        end
-    end)
-    btn.InputEnded:Connect(function(i)
-        if i.UserInputType == Enum.UserInputType.MouseButton1 then
-            TweenService:Create(btn, TweenInfo.new(0.1), {Size = orig}):Play()
-        end
-    end)
+local orig = btn.Size
+btn.InputBegan:Connect(function(i)
+if i.UserInputType == Enum.UserInputType.MouseButton1 then
+TweenService:Create(btn, TweenInfo.new(0.1), {Size = UDim2.new(orig.X.Scale, orig.X.Offset-3, orig.Y.Scale, orig.Y.Offset-3)}):Play()
+end
+end)
+btn.InputEnded:Connect(function(i)
+if i.UserInputType == Enum.UserInputType.MouseButton1 then
+TweenService:Create(btn, TweenInfo.new(0.1), {Size = orig}):Play()
+end
+end)
 end
 
 -- Tab System
@@ -162,49 +162,26 @@ Instance.new("UICorner", ContentArea).CornerRadius = UDim.new(0,8)
 local activePage = nil
 
 local function createTab(name, isFirst)
-    local Btn = Instance.new("TextButton")
-    Btn.Size = UDim2.new(1,0,0,26)
-    Btn.BackgroundColor3 = Color3.fromRGB(25,25,30)
-    Btn.BackgroundTransparency = isFirst and 0 or 1
-    Btn.Text = name
-    Btn.TextColor3 = isFirst and Color3.fromRGB(0,255,120) or Color3.fromRGB(130,130,150)
-    Btn.Font = Enum.Font.GothamSemibold
-    Btn.TextSize = 10
-    Btn.Parent = TabButtons
-    Instance.new("UICorner", Btn).CornerRadius = UDim.new(0,5)
-    clickAnim(Btn)
+local Btn = Instance.new("TextButton")
+Btn.Size = UDim2.new(1,0,0,26)
+Btn.BackgroundColor3 = Color3.fromRGB(25,25,30)
+Btn.BackgroundTransparency = isFirst and 0 or 1
+Btn.Text = name
+Btn.TextColor3 = isFirst and Color3.fromRGB(0,255,120) or Color3.fromRGB(130,130,150)
+Btn.Font = Enum.Font.GothamSemibold
+Btn.TextSize = 10
+Btn.Parent = TabButtons
+Instance.new("UICorner", Btn).CornerRadius = UDim.new(0,5)
+clickAnim(Btn)
 
-    local Page = Instance.new("Frame")
-    Page.Size = UDim2.new(1,-20,1,-12)
-    Page.Position = UDim2.new(0,10,0,6)
-    Page.BackgroundTransparency = 1
-    Page.Visible = isFirst
-    Page.Parent = ContentArea
+local Page = Instance.new("Frame") Page.Size = UDim2.new(1,-20,1,-12) Page.Position = UDim2.new(0,10,0,6) Page.BackgroundTransparency = 1 Page.Visible = isFirst Page.Parent = ContentArea if isFirst then activePage = Page end Btn.MouseButton1Click:Connect(function() if activePage == Page then return end for _, c in pairs(ContentArea:GetChildren()) do if c:IsA("Frame") then c.Visible = false end end for _, b in pairs(TabButtons:GetChildren()) do if b:IsA("TextButton") then TweenService:Create(b, TweenInfo.new(0.2), {BackgroundTransparency = 1, TextColor3 = Color3.fromRGB(130,130,150)}):Play() end end TweenService:Create(Btn, TweenInfo.new(0.2), {BackgroundTransparency = 0, TextColor3 = Color3.fromRGB(0,255,120)}):Play() Page.Visible = true activePage = Page end) return Page 
 
-    if isFirst then activePage = Page end
-
-    Btn.MouseButton1Click:Connect(function()
-        if activePage == Page then return end
-        for _, c in pairs(ContentArea:GetChildren()) do
-            if c:IsA("Frame") then c.Visible = false end
-        end
-        for _, b in pairs(TabButtons:GetChildren()) do
-            if b:IsA("TextButton") then
-                TweenService:Create(b, TweenInfo.new(0.2), {BackgroundTransparency = 1, TextColor3 = Color3.fromRGB(130,130,150)}):Play()
-            end
-        end
-        TweenService:Create(Btn, TweenInfo.new(0.2), {BackgroundTransparency = 0, TextColor3 = Color3.fromRGB(0,255,120)}):Play()
-        Page.Visible = true
-        activePage = Page
-    end)
-
-    return Page
 end
 
 local VehiclePage = createTab("Vehicle", true)
-local HitsPage    = createTab("HITS", false)
-local SavedPage   = createTab("SAVED", false)
-local UpdatePage  = createTab("UPDATE", false)
+local HitsPage = createTab("HITS", false)
+local SavedPage = createTab("SAVED", false)
+local UpdatePage = createTab("UPDATE", false)
 local CreditsPage = createTab("CREDITS", false)
 
 -- ==================== BACKEND ====================
@@ -220,344 +197,164 @@ local MaxSavedSongs = 30
 local SaveFileName = "SamMusicV6_Playlist.json"
 
 local function LoadSavedPlaylist()
-    pcall(function()
-        if readfile and isfile and isfile(SaveFileName) then
-            SavedPlaylist = HttpService:JSONDecode(readfile(SaveFileName)) or {}
-        end
-    end)
+pcall(function()
+if readfile and isfile and isfile(SaveFileName) then
+SavedPlaylist = HttpService:JSONDecode(readfile(SaveFileName)) or {}
+end
+end)
 end
 
 local function SavePlaylistToFile()
-    pcall(function()
-        if writefile then
-            writefile(SaveFileName, HttpService:JSONEncode(SavedPlaylist))
-        end
-    end)
+pcall(function()
+if writefile then
+writefile(SaveFileName, HttpService:JSONEncode(SavedPlaylist))
+end
+end)
 end
 
 LoadSavedPlaylist()
 
 local function SmartPlayMusic(id, vehicleType, useRGB)
-    if not VehicleRemote then return end
-    task.spawn(function()
-        RGBEnabled = false
-        VehicleRemote:FireServer("Delete NoMotorVehicle")
-        task.wait(0.2)
-        if ClearRemote then ClearRemote:FireServer("ClearAllTools") end
-        task.wait(0.2)
-        VehicleRemote:FireServer(vehicleType)
-        task.wait(1.0)
-        if useRGB then
-            RGBEnabled = true
-            task.spawn(function()
-                while RGBEnabled and task.wait(0.1) do
-                    local c = Color3.fromHSV(tick() % 5 / 5, 1, 1)
-                    local car = RE:FindFirstChild("1Player1sCa1r")
-                    if car then car:FireServer("NoMotorColor", c) end
-                end
-            end)
-        end
-        VehicleRemote:FireServer("PickingScooterMusicText", tostring(id))
-        task.wait(0.1)
-        VehicleRemote:FireServer("PickingScooterMusicText", tonumber(id))
-    end)
+if not VehicleRemote then return end
+task.spawn(function()
+RGBEnabled = false
+VehicleRemote:FireServer("Delete NoMotorVehicle")
+task.wait(0.2)
+if ClearRemote then ClearRemote:FireServer("ClearAllTools") end
+task.wait(0.2)
+VehicleRemote:FireServer(vehicleType)
+task.wait(1.0)
+if useRGB then
+RGBEnabled = true
+task.spawn(function()
+while RGBEnabled and task.wait(0.1) do
+local c = Color3.fromHSV(tick() % 5 / 5, 1, 1)
+local car = RE:FindFirstChild("1Player1sCa1r")
+if car then car:FireServer("NoMotorColor", c) end
+end
+end)
+end
+VehicleRemote:FireServer("PickingScooterMusicText", tostring(id))
+task.wait(0.1)
+VehicleRemote:FireServer("PickingScooterMusicText", tonumber(id))
+end)
 end
 
 local function StopMusic()
-    RGBEnabled = false
-    if VehicleRemote then VehicleRemote:FireServer("Delete NoMotorVehicle") end
-    if ClearRemote then task.spawn(function() task.wait(0.1) ClearRemote:FireServer("ClearAllTools") end) end
+RGBEnabled = false
+if VehicleRemote then VehicleRemote:FireServer("Delete NoMotorVehicle") end
+if ClearRemote then task.spawn(function() task.wait(0.1) ClearRemote:FireServer("ClearAllTools") end) end
 end
 
 -- Vehicle Tab
 local function buildVehicleUI(page)
-    local IDBox = Instance.new("TextBox")
-    IDBox.Size = UDim2.new(1,0,0,24) IDBox.Position = UDim2.new(0,0,0,5)
-    IDBox.BackgroundColor3 = Color3.fromRGB(25,25,30) IDBox.PlaceholderText = "Enter Audio ID..."
-    IDBox.Text = "" IDBox.TextColor3 = Color3.new(1,1,1) IDBox.Font = Enum.Font.Gotham
-    IDBox.TextSize = 11 IDBox.Parent = page
-    Instance.new("UICorner", IDBox).CornerRadius = UDim.new(0,4)
+local IDBox = Instance.new("TextBox")
+IDBox.Size = UDim2.new(1,0,0,24) IDBox.Position = UDim2.new(0,0,0,5)
+IDBox.BackgroundColor3 = Color3.fromRGB(25,25,30) IDBox.PlaceholderText = "Enter Audio ID..."
+IDBox.Text = "" IDBox.TextColor3 = Color3.new(1,1,1) IDBox.Font = Enum.Font.Gotham
+IDBox.TextSize = 11 IDBox.Parent = page
+Instance.new("UICorner", IDBox).CornerRadius = UDim.new(0,4)
 
-    local lbl = Instance.new("TextLabel")
-    lbl.Size = UDim2.new(1,0,0,18) lbl.Position = UDim2.new(0,0,0,34)
-    lbl.BackgroundTransparency = 1 lbl.Text = "Select Vehicle:" lbl.TextColor3 = Color3.fromRGB(200,200,220)
-    lbl.Font = Enum.Font.Gotham lbl.TextSize = 10 lbl.Parent = page
+local lbl = Instance.new("TextLabel") lbl.Size = UDim2.new(1,0,0,18) lbl.Position = UDim2.new(0,0,0,34) lbl.BackgroundTransparency = 1 lbl.Text = "Select Vehicle:" lbl.TextColor3 = Color3.fromRGB(200,200,220) lbl.Font = Enum.Font.Gotham lbl.TextSize = 10 lbl.Parent = page local skate = Instance.new("TextButton") skate.Size = UDim2.new(0.48,0,0,22) skate.Position = UDim2.new(0,0,0,54) skate.BackgroundColor3 = Color3.fromRGB(0,180,80) skate.Text = "Skateboard" skate.TextColor3 = Color3.new(1,1,1) skate.Font = Enum.Font.GothamBold skate.TextSize = 9 skate.Parent = page Instance.new("UICorner", skate).CornerRadius = UDim.new(0,4) local hover = Instance.new("TextButton") hover.Size = UDim2.new(0.48,0,0,22) hover.Position = UDim2.new(0.52,0,0,54) hover.BackgroundColor3 = Color3.fromRGB(35,35,45) hover.Text = "Hoverboard" hover.TextColor3 = Color3.new(1,1,1) hover.Font = Enum.Font.GothamBold hover.TextSize = 9 hover.Parent = page Instance.new("UICorner", hover).CornerRadius = UDim.new(0,4) skate.MouseButton1Click:Connect(function() SelectedVehicle = "SkateBoard" skate.BackgroundColor3 = Color3.fromRGB(0,180,80) hover.BackgroundColor3 = Color3.fromRGB(35,35,45) end) hover.MouseButton1Click:Connect(function() SelectedVehicle = "SegwaySmall" hover.BackgroundColor3 = Color3.fromRGB(0,180,80) skate.BackgroundColor3 = Color3.fromRGB(35,35,45) end) local scroll = Instance.new("ScrollingFrame") scroll.Size = UDim2.new(1,0,1,-85) scroll.Position = UDim2.new(0,0,0,82) scroll.BackgroundTransparency = 1 scroll.ScrollBarThickness = 2 scroll.Parent = page Instance.new("UIListLayout", scroll).Padding = UDim.new(0,4) local function makeBtn(text, color, rgb) local b = Instance.new("TextButton") b.Size = UDim2.new(1,-5,0,24) b.BackgroundColor3 = color b.Text = text b.TextColor3 = Color3.new(1,1,1) b.Font = Enum.Font.GothamBold b.TextSize = 10 b.Parent = scroll Instance.new("UICorner", b).CornerRadius = UDim.new(0,4) clickAnim(b) b.MouseButton1Click:Connect(function() SmartPlayMusic(IDBox.Text, SelectedVehicle, rgb) end) end makeBtn("Play Music", Color3.fromRGB(0,120,255), false) makeBtn("Play with RGB", Color3.fromRGB(150,50,255), true) local stop = Instance.new("TextButton") stop.Size = UDim2.new(1,-5,0,24) stop.BackgroundColor3 = Color3.fromRGB(255,60,60) stop.Text = "Stop Music" stop.TextColor3 = Color3.new(1,1,1) stop.Font = Enum.Font.GothamBold stop.TextSize = 10 stop.Parent = scroll Instance.new("UICorner", stop).CornerRadius = UDim.new(0,4) clickAnim(stop) stop.MouseButton1Click:Connect(StopMusic) scroll.CanvasSize = UDim2.new(0,0,0,100) 
 
-    local skate = Instance.new("TextButton")
-    skate.Size = UDim2.new(0.48,0,0,22) skate.Position = UDim2.new(0,0,0,54)
-    skate.BackgroundColor3 = Color3.fromRGB(0,180,80) skate.Text = "Skateboard"
-    skate.TextColor3 = Color3.new(1,1,1) skate.Font = Enum.Font.GothamBold skate.TextSize = 9
-    skate.Parent = page Instance.new("UICorner", skate).CornerRadius = UDim.new(0,4)
-
-    local hover = Instance.new("TextButton")
-    hover.Size = UDim2.new(0.48,0,0,22) hover.Position = UDim2.new(0.52,0,0,54)
-    hover.BackgroundColor3 = Color3.fromRGB(35,35,45) hover.Text = "Hoverboard"
-    hover.TextColor3 = Color3.new(1,1,1) hover.Font = Enum.Font.GothamBold hover.TextSize = 9
-    hover.Parent = page Instance.new("UICorner", hover).CornerRadius = UDim.new(0,4)
-
-    skate.MouseButton1Click:Connect(function()
-        SelectedVehicle = "SkateBoard"
-        skate.BackgroundColor3 = Color3.fromRGB(0,180,80)
-        hover.BackgroundColor3 = Color3.fromRGB(35,35,45)
-    end)
-    hover.MouseButton1Click:Connect(function()
-        SelectedVehicle = "SegwaySmall"
-        hover.BackgroundColor3 = Color3.fromRGB(0,180,80)
-        skate.BackgroundColor3 = Color3.fromRGB(35,35,45)
-    end)
-
-    local scroll = Instance.new("ScrollingFrame")
-    scroll.Size = UDim2.new(1,0,1,-85) scroll.Position = UDim2.new(0,0,0,82)
-    scroll.BackgroundTransparency = 1 scroll.ScrollBarThickness = 2 scroll.Parent = page
-    Instance.new("UIListLayout", scroll).Padding = UDim.new(0,4)
-
-    local function makeBtn(text, color, rgb)
-        local b = Instance.new("TextButton")
-        b.Size = UDim2.new(1,-5,0,24)
-        b.BackgroundColor3 = color
-        b.Text = text
-        b.TextColor3 = Color3.new(1,1,1)
-        b.Font = Enum.Font.GothamBold
-        b.TextSize = 10
-        b.Parent = scroll
-        Instance.new("UICorner", b).CornerRadius = UDim.new(0,4)
-        clickAnim(b)
-        b.MouseButton1Click:Connect(function()
-            SmartPlayMusic(IDBox.Text, SelectedVehicle, rgb)
-        end)
-    end
-
-    makeBtn("Play Music", Color3.fromRGB(0,120,255), false)
-    makeBtn("Play with RGB", Color3.fromRGB(150,50,255), true)
-
-    local stop = Instance.new("TextButton")
-    stop.Size = UDim2.new(1,-5,0,24)
-    stop.BackgroundColor3 = Color3.fromRGB(255,60,60)
-    stop.Text = "Stop Music"
-    stop.TextColor3 = Color3.new(1,1,1)
-    stop.Font = Enum.Font.GothamBold
-    stop.TextSize = 10
-    stop.Parent = scroll
-    Instance.new("UICorner", stop).CornerRadius = UDim.new(0,4)
-    clickAnim(stop)
-    stop.MouseButton1Click:Connect(StopMusic)
-
-    scroll.CanvasSize = UDim2.new(0,0,0,100)
 end
 
 buildVehicleUI(VehiclePage)
 
 -- Hits Tab
 local HitsSongs = {
-   {Name = "Mommyy", Id = "112429422439068"},
-    {Name = "I Got You Baby", Id = "115492336583856"},
-    {Name = "Alone", Id = "105512964264815"},
-    {Name = "Another World", Id = "111351357978027"},
-    {Name = "Under the Influence", Id = "103222441664136"},
-    {Name = "No Copyright", Id = "72031945149756"},
-    {Name = "Clean Drop", Id = "97491944760306"},
-    {Name = "Night Drive", Id = "113737237426134"},
-    {Name = "Soft Rage", Id = "105158334993991"},
-    {Name = "Midnight Heat", Id = "78015487317045"},
-    {Name = "Ghost Mode", Id = "80442979651569"},
-    {Name = "Lowkey Flex", Id = "128961712071619"},
-    {Name = "After Hours", Id = "110152577760152"},
-    {Name = "Dark Pulse", Id = "120871403922972"},
-    {Name = "Silent Killer", Id = "91301048841024"},
-    {Name = "Cold Blooded", Id = "111205815697819"},
-    {Name = "Stadium Rave", Id = "1846368080"},
-    {Name = "Summer Heat", Id = "1844422218"},
-    {Name = "Hard Bounce", Id = "117206383809583"},
-    {Name = "Pure Chaos", Id = "86503267790406"},
-    {Name = "Late Night", Id = "78625674962793"},
-    {Name = "Wake Up Hardtekk", Id = "70969700953846"},
-    {Name = "Obligatory Hardtekk", Id = "100825248589453"},
-    {Name = "German Anthem", Id = "1838111511"},
-    {Name = "Shape Of You", Id = "101465201102170"},
+{Name = "Mommyy", Id = "112429422439068"},
+{Name = "I Got You Baby", Id = "115492336583856"},
+{Name = "Alone", Id = "105512964264815"},
+{Name = "Another World", Id = "111351357978027"},
+{Name = "Under the Influence", Id = "103222441664136"},
+{Name = "No Copyright", Id = "72031945149756"},
+{Name = "Clean Drop", Id = "97491944760306"},
+{Name = "Night Drive", Id = "113737237426134"},
+{Name = "Soft Rage", Id = "105158334993991"},
+{Name = "Midnight Heat", Id = "78015487317045"},
+{Name = "Ghost Mode", Id = "80442979651569"},
+{Name = "Lowkey Flex", Id = "128961712071619"},
+{Name = "After Hours", Id = "110152577760152"},
+{Name = "Dark Pulse", Id = "120871403922972"},
+{Name = "Silent Killer", Id = "91301048841024"},
+{Name = "Cold Blooded", Id = "111205815697819"},
+{Name = "Stadium Rave", Id = "1846368080"},
+{Name = "Summer Heat", Id = "1844422218"},
+{Name = "Hard Bounce", Id = "117206383809583"},
+{Name = "Pure Chaos", Id = "86503267790406"},
+{Name = "Late Night", Id = "78625674962793"},
+{Name = "Wake Up Hardtekk", Id = "70969700953846"},
+{Name = "Obligatory Hardtekk", Id = "100825248589453"},
+{Name = "German Anthem", Id = "1838111511"},
+{Name = "Shape Of You", Id = "101465201102170"},
 }
 
 local function buildMusicTab(page, songList)
-    local scroll = Instance.new("ScrollingFrame")
-    scroll.Size = UDim2.new(1,0,1,-10) scroll.Position = UDim2.new(0,0,0,5)
-    scroll.BackgroundTransparency = 1 scroll.ScrollBarThickness = 3 scroll.Parent = page
-    Instance.new("UIListLayout", scroll).Padding = UDim.new(0,4)
+local scroll = Instance.new("ScrollingFrame")
+scroll.Size = UDim2.new(1,0,1,-10) scroll.Position = UDim2.new(0,0,0,5)
+scroll.BackgroundTransparency = 1 scroll.ScrollBarThickness = 3 scroll.Parent = page
+Instance.new("UIListLayout", scroll).Padding = UDim.new(0,4)
 
-    for _, song in ipairs(songList) do
-        local entry = Instance.new("Frame")
-        entry.Size = UDim2.new(1,-5,0,28)
-        entry.BackgroundColor3 = Color3.fromRGB(30,30,40)
-        entry.Parent = scroll
-        Instance.new("UICorner", entry).CornerRadius = UDim.new(0,4)
+for _, song in ipairs(songList) do local entry = Instance.new("Frame") entry.Size = UDim2.new(1,-5,0,28) entry.BackgroundColor3 = Color3.fromRGB(30,30,40) entry.Parent = scroll Instance.new("UICorner", entry).CornerRadius = UDim.new(0,4) local namelbl = Instance.new("TextLabel") namelbl.Size = UDim2.new(0.6,0,1,0) namelbl.Position = UDim2.new(0,8,0,0) namelbl.BackgroundTransparency = 1 namelbl.Text = song[1] namelbl.TextColor3 = Color3.fromRGB(200,200,220) namelbl.Font = Enum.Font.Gotham namelbl.TextSize = 10 namelbl.TextXAlignment = Enum.TextXAlignment.Left namelbl.Parent = entry local play = Instance.new("TextButton") play.Size = UDim2.new(0,22,0,18) play.Position = UDim2.new(1,-52,0.5,-9) play.BackgroundColor3 = Color3.fromRGB(0,150,50) play.Text = "▶" play.TextColor3 = Color3.new(1,1,1) play.Font = Enum.Font.GothamBold play.TextSize = 10 play.Parent = entry Instance.new("UICorner", play).CornerRadius = UDim.new(0,4) clickAnim(play) play.MouseButton1Click:Connect(function() SmartPlayMusic(tostring(song[2]), SelectedVehicle, false) end) local save = Instance.new("TextButton") save.Size = UDim2.new(0,22,0,18) save.Position = UDim2.new(1,-28,0.5,-9) save.BackgroundColor3 = Color3.fromRGB(255,165,0) save.Text = "💾" save.TextColor3 = Color3.new(1,1,1) save.Font = Enum.Font.GothamBold save.TextSize = 10 save.Parent = entry Instance.new("UICorner", save).CornerRadius = UDim.new(0,4) clickAnim(save) save.MouseButton1Click:Connect(function() if #SavedPlaylist < MaxSavedSongs then table.insert(SavedPlaylist, {name = song[1], id = tostring(song[2])}) SavePlaylistToFile() buildSavedUI(SavedPage) end end) end scroll.CanvasSize = UDim2.new(0,0,0, #songList * 32) 
 
-        local namelbl = Instance.new("TextLabel")
-        namelbl.Size = UDim2.new(0.6,0,1,0) namelbl.Position = UDim2.new(0,8,0,0)
-        namelbl.BackgroundTransparency = 1 namelbl.Text = song[1]
-        namelbl.TextColor3 = Color3.fromRGB(200,200,220) namelbl.Font = Enum.Font.Gotham
-        namelbl.TextSize = 10 namelbl.TextXAlignment = Enum.TextXAlignment.Left
-        namelbl.Parent = entry
-
-        local play = Instance.new("TextButton")
-        play.Size = UDim2.new(0,22,0,18) play.Position = UDim2.new(1,-52,0.5,-9)
-        play.BackgroundColor3 = Color3.fromRGB(0,150,50) play.Text = "▶"
-        play.TextColor3 = Color3.new(1,1,1) play.Font = Enum.Font.GothamBold play.TextSize = 10
-        play.Parent = entry Instance.new("UICorner", play).CornerRadius = UDim.new(0,4)
-        clickAnim(play)
-        play.MouseButton1Click:Connect(function()
-            SmartPlayMusic(tostring(song[2]), SelectedVehicle, false)
-        end)
-
-        local save = Instance.new("TextButton")
-        save.Size = UDim2.new(0,22,0,18) save.Position = UDim2.new(1,-28,0.5,-9)
-        save.BackgroundColor3 = Color3.fromRGB(255,165,0) save.Text = "💾"
-        save.TextColor3 = Color3.new(1,1,1) save.Font = Enum.Font.GothamBold save.TextSize = 10
-        save.Parent = entry Instance.new("UICorner", save).CornerRadius = UDim.new(0,4)
-        clickAnim(save)
-        save.MouseButton1Click:Connect(function()
-            if #SavedPlaylist < MaxSavedSongs then
-                table.insert(SavedPlaylist, {name = song[1], id = tostring(song[2])})
-                SavePlaylistToFile()
-                buildSavedUI(SavedPage)
-            end
-        end)
-    end
-    scroll.CanvasSize = UDim2.new(0,0,0, #songList * 32)
 end
 
 buildMusicTab(HitsPage, HitsSongs)
 
 -- Saved Tab mit Mülleimer
 function buildSavedUI(page)
-    for _, c in pairs(page:GetChildren()) do
-        if c:IsA("Frame") or c:IsA("ScrollingFrame") then c:Destroy() end
-    end
+for _, c in pairs(page:GetChildren()) do
+if c:IsA("Frame") or c:IsA("ScrollingFrame") then c:Destroy() end
+end
 
-    local title = Instance.new("TextLabel")
-    title.Size = UDim2.new(1,0,0,20) title.Position = UDim2.new(0,0,0,5)
-    title.BackgroundTransparency = 1
-    title.Text = "📁 Saved Songs (" .. #SavedPlaylist .. "/" .. MaxSavedSongs .. ")"
-    title.TextColor3 = Color3.fromRGB(0,255,120)
-    title.Font = Enum.Font.GothamBold
-    title.TextSize = 11
-    title.Parent = page
+local title = Instance.new("TextLabel") title.Size = UDim2.new(1,0,0,20) title.Position = UDim2.new(0,0,0,5) title.BackgroundTransparency = 1 title.Text = "📁 Saved Songs (" .. #SavedPlaylist .. "/" .. MaxSavedSongs .. ")" title.TextColor3 = Color3.fromRGB(0,255,120) title.Font = Enum.Font.GothamBold title.TextSize = 11 title.Parent = page local scroll = Instance.new("ScrollingFrame") scroll.Size = UDim2.new(1,0,1,-30) scroll.Position = UDim2.new(0,0,0,30) scroll.BackgroundTransparency = 1 scroll.ScrollBarThickness = 3 scroll.Parent = page Instance.new("UIListLayout", scroll).Padding = UDim.new(0,4) if #SavedPlaylist == 0 then local empty = Instance.new("TextLabel") empty.Size = UDim2.new(1,0,0,40) empty.BackgroundTransparency = 1 empty.Text = "No saved songs yet!\nClick 💾 in HITS" empty.TextColor3 = Color3.fromRGB(150,150,150) empty.Font = Enum.Font.Gotham empty.TextSize = 10 empty.TextWrapped = true empty.Parent = scroll return end for i, song in ipairs(SavedPlaylist) do local entry = Instance.new("Frame") entry.Size = UDim2.new(1,-5,0,28) entry.BackgroundColor3 = Color3.fromRGB(30,30,40) entry.Parent = scroll Instance.new("UICorner", entry).CornerRadius = UDim.new(0,4) local namelbl = Instance.new("TextLabel") namelbl.Size = UDim2.new(0.5,0,1,0) namelbl.Position = UDim2.new(0,5,0,0) namelbl.BackgroundTransparency = 1 namelbl.Text = song.name namelbl.TextColor3 = Color3.fromRGB(200,200,220) namelbl.Font = Enum.Font.Gotham namelbl.TextSize = 9 namelbl.TextXAlignment = Enum.TextXAlignment.Left namelbl.Parent = entry local play = Instance.new("TextButton") play.Size = UDim2.new(0,22,0,18) play.Position = UDim2.new(1,-52,0.5,-9) play.BackgroundColor3 = Color3.fromRGB(0,150,50) play.Text = "▶" play.TextColor3 = Color3.new(1,1,1) play.Font = Enum.Font.GothamBold play.TextSize = 10 play.Parent = entry Instance.new("UICorner", play).CornerRadius = UDim.new(0,4) clickAnim(play) play.MouseButton1Click:Connect(function() SmartPlayMusic(song.id, SelectedVehicle, false) end) -- Roter Mülleimer local deleteBtn = Instance.new("TextButton") deleteBtn.Size = UDim2.new(0,22,0,18) deleteBtn.Position = UDim2.new(1,-28,0.5,-9) deleteBtn.BackgroundColor3 = Color3.fromRGB(255,60,60) deleteBtn.Text = "✕" deleteBtn.TextColor3 = Color3.new(1,1,1) deleteBtn.Font = Enum.Font.GothamBold deleteBtn.TextSize = 12 deleteBtn.Parent = entry Instance.new("UICorner", deleteBtn).CornerRadius = UDim.new(0,4) clickAnim(deleteBtn) deleteBtn.MouseButton1Click:Connect(function() table.remove(SavedPlaylist, i) SavePlaylistToFile() buildSavedUI(page) end) end scroll.CanvasSize = UDim2.new(0,0,0,#SavedPlaylist*32) 
 
-    local scroll = Instance.new("ScrollingFrame")
-    scroll.Size = UDim2.new(1,0,1,-30) scroll.Position = UDim2.new(0,0,0,30)
-    scroll.BackgroundTransparency = 1 scroll.ScrollBarThickness = 3 scroll.Parent = page
-    Instance.new("UIListLayout", scroll).Padding = UDim.new(0,4)
-
-    if #SavedPlaylist == 0 then
-        local empty = Instance.new("TextLabel")
-        empty.Size = UDim2.new(1,0,0,40) empty.BackgroundTransparency = 1
-        empty.Text = "No saved songs yet!\nClick 💾 in HITS"
-        empty.TextColor3 = Color3.fromRGB(150,150,150) empty.Font = Enum.Font.Gotham
-        empty.TextSize = 10 empty.TextWrapped = true empty.Parent = scroll
-        return
-    end
-
-    for i, song in ipairs(SavedPlaylist) do
-        local entry = Instance.new("Frame")
-        entry.Size = UDim2.new(1,-5,0,28)
-        entry.BackgroundColor3 = Color3.fromRGB(30,30,40)
-        entry.Parent = scroll
-        Instance.new("UICorner", entry).CornerRadius = UDim.new(0,4)
-
-        local namelbl = Instance.new("TextLabel")
-        namelbl.Size = UDim2.new(0.5,0,1,0) namelbl.Position = UDim2.new(0,5,0,0)
-        namelbl.BackgroundTransparency = 1 namelbl.Text = song.name
-        namelbl.TextColor3 = Color3.fromRGB(200,200,220) namelbl.Font = Enum.Font.Gotham
-        namelbl.TextSize = 9 namelbl.TextXAlignment = Enum.TextXAlignment.Left
-        namelbl.Parent = entry
-
-        local play = Instance.new("TextButton")
-        play.Size = UDim2.new(0,22,0,18) play.Position = UDim2.new(1,-52,0.5,-9)
-        play.BackgroundColor3 = Color3.fromRGB(0,150,50) play.Text = "▶"
-        play.TextColor3 = Color3.new(1,1,1) play.Font = Enum.Font.GothamBold play.TextSize = 10
-        play.Parent = entry Instance.new("UICorner", play).CornerRadius = UDim.new(0,4)
-        clickAnim(play)
-        play.MouseButton1Click:Connect(function()
-            SmartPlayMusic(song.id, SelectedVehicle, false)
-        end)
-
-        -- Roter Mülleimer
-        local deleteBtn = Instance.new("TextButton")
-        deleteBtn.Size = UDim2.new(0,22,0,18) deleteBtn.Position = UDim2.new(1,-28,0.5,-9)
-        deleteBtn.BackgroundColor3 = Color3.fromRGB(255,60,60)
-        deleteBtn.Text = "✕"
-        deleteBtn.TextColor3 = Color3.new(1,1,1)
-        deleteBtn.Font = Enum.Font.GothamBold
-        deleteBtn.TextSize = 12
-        deleteBtn.Parent = entry
-        Instance.new("UICorner", deleteBtn).CornerRadius = UDim.new(0,4)
-        clickAnim(deleteBtn)
-
-        deleteBtn.MouseButton1Click:Connect(function()
-            table.remove(SavedPlaylist, i)
-            SavePlaylistToFile()
-            buildSavedUI(page)
-        end)
-    end
-    scroll.CanvasSize = UDim2.new(0,0,0,#SavedPlaylist*32)
 end
 
 buildSavedUI(SavedPage)
 
 -- Update Tab
 local function buildUpdateUI(page)
-    local title = Instance.new("TextLabel")
-    title.Size = UDim2.new(1,0,0,30) title.Position = UDim2.new(0,10,0,10)
-    title.BackgroundTransparency = 1
-    title.Text = "V6 Update Log"
-    title.TextColor3 = Color3.fromRGB(0,255,120)
-    title.Font = Enum.Font.GothamBlack
-    title.TextSize = 16
-    title.Parent = page
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1,0,0,30) title.Position = UDim2.new(0,10,0,10)
+title.BackgroundTransparency = 1
+title.Text = "V6 Update Log"
+title.TextColor3 = Color3.fromRGB(0,255,120)
+title.Font = Enum.Font.GothamBlack
+title.TextSize = 16
+title.Parent = page
 
-    local text = Instance.new("TextLabel")
-    text.Size = UDim2.new(1,-20,1,-50)
-    text.Position = UDim2.new(0,10,0,50)
-    text.BackgroundTransparency = 1
-    text.Text = 
+local text = Instance.new("TextLabel") text.Size = UDim2.new(1,-20,1,-50) text.Position = UDim2.new(0,10,0,50) text.BackgroundTransparency = 1 text.Text = 
+
 [[• Updated to Version 6
 • Added 5 new songs to HITS:
-  - New 1
-  - New 2
-  - New 3
-  - New 4
-  - New 5]]
-    text.TextColor3 = Color3.fromRGB(200,200,220)
-    text.Font = Enum.Font.Gotham
-    text.TextSize = 11
-    text.TextXAlignment = Enum.TextXAlignment.Left
-    text.TextYAlignment = Enum.TextYAlignment.Top
-    text.TextWrapped = true
-    text.Parent = page
-end
+
+New 1 New 2 New 3 New 4 New 5]]
+text.TextColor3 = Color3.fromRGB(200,200,220)
+text.Font = Enum.Font.Gotham
+text.TextSize = 11
+text.TextXAlignment = Enum.TextXAlignment.Left
+text.TextYAlignment = Enum.TextYAlignment.Top
+text.TextWrapped = true
+text.Parent = page
+end 
 
 buildUpdateUI(UpdatePage)
 
 -- Credits Tab
 local function buildCreditsUI(page)
-    local t = Instance.new("TextLabel")
-    t.Size = UDim2.new(1,0,0,30) t.Position = UDim2.new(0,10,0,10)
-    t.BackgroundTransparency = 1 t.Text = "Credits"
-    t.TextColor3 = Color3.fromRGB(0,255,120) t.Font = Enum.Font.GothamBlack t.TextSize = 16
-    t.Parent = page
+local t = Instance.new("TextLabel")
+t.Size = UDim2.new(1,0,0,30) t.Position = UDim2.new(0,10,0,10)
+t.BackgroundTransparency = 1 t.Text = "Credits"
+t.TextColor3 = Color3.fromRGB(0,255,120) t.Font = Enum.Font.GothamBlack t.TextSize = 16
+t.Parent = page
 
-    local l1 = Instance.new("TextLabel")
-    l1.Size = UDim2.new(1,-20,0,22) l1.Position = UDim2.new(0,10,0,50)
-    l1.BackgroundTransparency = 1
-    l1.Text = "SamBlox (Iostein_cool) Hub manufacturer/script"
-    l1.TextColor3 = Color3.fromRGB(200,200,220) l1.Font = Enum.Font.Gotham l1.TextSize = 11
-    l1.TextXAlignment = Enum.TextXAlignment.Left l1.TextWrapped = true l1.Parent = page
+local l1 = Instance.new("TextLabel") l1.Size = UDim2.new(1,-20,0,22) l1.Position = UDim2.new(0,10,0,50) l1.BackgroundTransparency = 1 l1.Text = "SamBlox (Iostein_cool) Hub manufacturer/script" l1.TextColor3 = Color3.fromRGB(200,200,220) l1.Font = Enum.Font.Gotham l1.TextSize = 11 l1.TextXAlignment = Enum.TextXAlignment.Left l1.TextWrapped = true l1.Parent = page local l2 = Instance.new("TextLabel") l2.Size = UDim2.new(1,-20,0,22) l2.Position = UDim2.new(0,10,0,74) l2.BackgroundTransparency = 1 l2.Text = "Rosti (Rostam7486) SamBlox's best friend" l2.TextColor3 = Color3.fromRGB(200,200,220) l2.Font = Enum.Font.Gotham l2.TextSize = 11 l2.TextXAlignment = Enum.TextXAlignment.Left l2.TextWrapped = true l2.Parent = page 
 
-    local l2 = Instance.new("TextLabel")
-    l2.Size = UDim2.new(1,-20,0,22) l2.Position = UDim2.new(0,10,0,74)
-    l2.BackgroundTransparency = 1
-    l2.Text = "Rosti (Rostam7486) SamBlox's best friend"
-    l2.TextColor3 = Color3.fromRGB(200,200,220) l2.Font = Enum.Font.Gotham l2.TextSize = 11
-    l2.TextXAlignment = Enum.TextXAlignment.Left l2.TextWrapped = true l2.Parent = page
 end
 
 buildCreditsUI(CreditsPage)
 
 print("✅ Sam's Music V6 loaded - 5 new songs added")
+
