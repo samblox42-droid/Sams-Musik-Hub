@@ -1,89 +1,172 @@
 -- =============================================
--- COMBINED SCRIPT: AD DELAY + RAINBOW BIO CHANGER
+-- SAM'S MUSIC LOADER V7 - Premium Style
 -- =============================================
 
 local SCRIPT_URL = "https://raw.githubusercontent.com/samblox42-droid/Sams-Musik-Hub/refs/heads/main/Main%20scipr"
 local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
 local LocalPlayer = Players.LocalPlayer
 
--- 1. GUI ERSTELLEN (Werbe-Timer)
+-- 1. BLUR + DARK OVERLAY
+local blur = Instance.new("BlurEffect")
+blur.Size = 0
+blur.Parent = game:GetService("Lighting")
+
+TweenService:Create(blur, TweenInfo.new(0.6), {Size = 24}):Play()
+
 local gui = Instance.new("ScreenGui")
+gui.Name = "SamLoaderV7"
+gui.IgnoreGuiInset = true
 gui.ResetOnSpawn = false
+gui.DisplayOrder = 999
 gui.Parent = LocalPlayer:WaitForChild("PlayerGui")
 
-local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 320, 0, 170)
-frame.Position = UDim2.new(0.5, -160, 0.5, -85)
-frame.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
-frame.Parent = gui
-Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 10)
+-- Vollflächiger dunkler Hintergrund (man kann nichts mehr klicken)
+local overlay = Instance.new("Frame")
+overlay.Size = UDim2.new(1, 0, 1, 0)
+overlay.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+overlay.BackgroundTransparency = 1
+overlay.BorderSizePixel = 0
+overlay.Parent = gui
 
+TweenService:Create(overlay, TweenInfo.new(0.5), {BackgroundTransparency = 0.35}):Play()
+
+-- 2. HAUPT-FRAME
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 340, 0, 190)
+frame.Position = UDim2.new(0.5, -170, 0.5, -95)
+frame.BackgroundColor3 = Color3.fromRGB(16, 16, 20)
+frame.BorderSizePixel = 0
+frame.Parent = gui
+
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 14)
+corner.Parent = frame
+
+local stroke = Instance.new("UIStroke")
+stroke.Color = Color3.fromRGB(0, 255, 130)
+stroke.Thickness = 1.5
+stroke.Transparency = 0.4
+stroke.Parent = frame
+
+-- Grüner Glow oben
+local topLine = Instance.new("Frame")
+topLine.Size = UDim2.new(1, 0, 0, 3)
+topLine.BackgroundColor3 = Color3.fromRGB(0, 255, 130)
+topLine.BorderSizePixel = 0
+topLine.Parent = frame
+
+local topCorner = Instance.new("UICorner")
+topCorner.CornerRadius = UDim.new(0, 14)
+topCorner.Parent = topLine
+
+-- Titel
 local title = Instance.new("TextLabel")
-title.Size = UDim2.new(1, 0, 0.5, 0)
+title.Size = UDim2.new(1, -20, 0, 40)
+title.Position = UDim2.new(0, 10, 0, 18)
 title.BackgroundTransparency = 1
 title.Text = "📢 Werbung für mehr Nutzung"
 title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.Font = Enum.Font.GothamBold
-title.TextScaled = true
+title.TextSize = 18
 title.Parent = frame
 
+-- Timer
 local timerLabel = Instance.new("TextLabel")
-timerLabel.Size = UDim2.new(1, 0, 0.5, 0)
-timerLabel.Position = UDim2.new(0, 0, 0.5, 0)
+timerLabel.Size = UDim2.new(1, -20, 0, 50)
+timerLabel.Position = UDim2.new(0, 10, 0, 65)
 timerLabel.BackgroundTransparency = 1
-timerLabel.TextColor3 = Color3.fromRGB(0, 255, 200)
+timerLabel.Text = "Script startet in 15 Sekunden..."
+timerLabel.TextColor3 = Color3.fromRGB(0, 255, 170)
 timerLabel.Font = Enum.Font.GothamBold
-timerLabel.TextScaled = true
+timerLabel.TextSize = 16
 timerLabel.Parent = frame
 
--- 2. FUNKTIONEN FÜR BROOKHAVEN (Rainbow & Bio)
-local function getRainbowColor()
-    local hue = (tick() % 6) / 6
-    return Color3.fromHSV(hue, 1, 1)
-end
+-- Starting Animation (unten)
+local startingLabel = Instance.new("TextLabel")
+startingLabel.Size = UDim2.new(1, -20, 0, 25)
+startingLabel.Position = UDim2.new(0, 10, 1, -38)
+startingLabel.BackgroundTransparency = 1
+startingLabel.Text = "Starting."
+startingLabel.TextColor3 = Color3.fromRGB(140, 140, 155)
+startingLabel.Font = Enum.Font.Gotham
+startingLabel.TextSize = 13
+startingLabel.Parent = frame
 
-local function setNameAndBio()
-    local RE = ReplicatedStorage:FindFirstChild("RE")
-    if not RE then return end
+-- 3. PUNKT-ANIMATION
+local dots = {".", "..", "..."}
+local dotIndex = 1
 
-    local nameRemote = RE:FindFirstChild("1RPNam1eTex1t") or RE:FindFirstChildOfClass("RemoteEvent")
-    if not nameRemote then return end
+local animConnection
+animConnection = RunService.Heartbeat:Connect(function()
+    -- wird über task gesteuert
+end)
 
-    -- Name & Bio setzen
-    nameRemote:FireServer("RolePlayName", "⚡️⚠️Sam's Musik hub⚠️⚡️")
-    task.wait(0.3)
-    
-    local bioText = "⚡️⚠️Sam's Musik hub by Samblox⚡️⚡️"
-    local bioArgs = {"Bio", "Info", "Description", "SetBio", "RPInfo"}
-    
-    for _, arg in pairs(bioArgs) do
-        nameRemote:FireServer(arg, bioText)
+task.spawn(function()
+    while startingLabel and startingLabel.Parent do
+        startingLabel.Text = "Starting" .. dots[dotIndex]
+        dotIndex = dotIndex % 3 + 1
+        task.wait(0.45)
     end
-end
+end)
 
--- 3. START-SEQUENZ (Countdown)
+-- 4. COUNTDOWN
 for i = 15, 1, -1 do
-    timerLabel.Text = "⏳ Script startet in " .. i .. " Sekunden..."
+    timerLabel.Text = "Script startet in " .. i .. " Sekunden..."
     task.wait(1)
 end
 
 title.Text = "✔ Lade Script..."
 timerLabel.Text = "Bitte warten..."
-task.wait(1)
+startingLabel.Text = "Starting..."
+
+task.wait(1.1)
+
+-- 5. AUFRÄUMEN
+TweenService:Create(blur, TweenInfo.new(0.5), {Size = 0}):Play()
+TweenService:Create(overlay, TweenInfo.new(0.5), {BackgroundTransparency = 1}):Play()
+TweenService:Create(frame, TweenInfo.new(0.4), {BackgroundTransparency = 1}):Play()
+
+task.wait(0.55)
+blur:Destroy()
 gui:Destroy()
 
--- 4. EXTERNES SCRIPT LADEN
+-- 6. EXTERNES SCRIPT LADEN
 task.spawn(function()
     pcall(function()
         loadstring(game:HttpGet(SCRIPT_URL))()
     end)
 end)
 
--- 5. REGENBOGEN & BIO AKTIVIEREN
+-- 7. RAINBOW + BIO (wie vorher)
+local function getRainbowColor()
+    local t = tick() * 2
+    return Color3.fromHSV(t % 1, 1, 1)
+end
+
+local function setNameAndBio()
+    local nameRemote = nil
+    for _, obj in pairs(game:GetService("ReplicatedStorage"):GetDescendants()) do
+        if obj:IsA("RemoteEvent") and (obj.Name:find("Name") or obj.Name:find("Bio") or obj.Name:find("RP")) then
+            nameRemote = obj
+            break
+        end
+    end
+    if not nameRemote then return end
+
+    local bioText = "⚡️⚠️Sam's Musik hub by Samblox⚡️⚡️"
+    local bioArgs = {"Bio", "Info", "Description", "SetBio", "RPInfo"}
+    
+    for _, arg in pairs(bioArgs) do
+        pcall(function()
+            nameRemote:FireServer(arg, bioText)
+        end)
+    end
+end
+
 print("🌈 Rainbow Name + Bio Changer wird aktiviert...")
 
--- Rainbow Effekt Loop
 task.spawn(function()
     while task.wait(0.12) do
         if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Head") then
@@ -110,4 +193,4 @@ if LocalPlayer.Character then
     setNameAndBio()
 end
 
-print("✅ Alles fertig geladen!")
+print("✅ Loader fertig – Script wird geladen!")
